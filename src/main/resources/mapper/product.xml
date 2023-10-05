@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="project.momento.imgup.mapper.ImgupMapper">	<!-- xml파일을 사용할 mapper가 있는 경로 -->
+
+	<!--<select id="card-body" parameterType="project.momento.imgup.dto.ImgupDto" resultType="project.momento.Imgup.dto.ImgupDto">
+		<![CDATA[
+		SELECT CHART.PK_PROD_SEQ, IMGUP.PROD_NAME, IMGUP.PROD_TYPE,  CHART.REGIS_DT 
+			FROM CHART PK_RESULT_SEQ CHART
+			FULL OUTER JOIN IMGUP 
+			ON CHART.PK_PROD_SEQ = IMGUP.PK_PROD_SEQ
+		]]>
+		
+	</select>-->
+	<!-- UPDATE문 -->
+	<!-- DELETE문 -->
+	
+</mapper>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<!-- Default Layout Import-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/layout/defaultLayout}">
+
+<th:block layout:fragment="content">
+	<style>
+		.prodDiv {
+			cursor: pointer;
+		}
+
+		.selectDiv {
+			cursor: pointer;
+			border-radius: 3px;
+			box-shadow: 7px 6px 20px 1px #007bff;
+		}
+	</style>
+	<div class="container">
+		<h2 style=" padding: 50px; text-align: center;">두피 검사 결과</h2>
+		<button id="uploadBtn" th:if="${session.loginDto != null}" style="float: right;" class="btn btn-lg btn-primary"
+			type="button">저장</button>
+
+		<canvas id="marksChart" width="1100vw" height="400"></canvas>
+		<h2 style=" padding: 50px; text-align: center;">당신의 두피는 타입은 "" 입니다 <br>
+			당신은 탈모입니다. 자라나라 머리머리! </h2>
+		<div class="row">
+			<div class="col-12">
+
+				<nav class="navbar navbar-expand-md">
+					<div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+						<ul class="navbar-nav mr-auto">
+							<h2>상품 추천</h2>
+						</ul>
+					</div>
+					<div class="mx-auto order-0">
+						<ul class="navbar-nav ml-auto">
+							<li class="nav-item">
+								<a class="nav-link" th:href="@{/chart.com}">
+									<h4><span class="badge badge-pill badge-info">ALL</span></h4>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" th:href="@{/chart.com(prodType='샴푸')}">
+									<h4><span class="badge badge-pill badge-info">샴푸</span></h4>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" th:href="@{/chart.com(prodType='린스')}">
+									<h4><span class="badge badge-pill badge-info">린스</span></h4>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" th:href="@{/chart.com(prodType='에센스')}">
+									<h4><span class="badge badge-pill badge-info">에센스</span></h4>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+						<ul class="navbar-nav ml-auto">
+							<li class="nav-item">
+								<div class="collapse navbar-collapse" id="navbarSupportedContent">
+									<ul class="navbar-nav mr-auto">
+										<form method="get" action="/chart.com" class="form-inline my-2 my-lg-0">
+											<input name="keyword" class="form-control mr-sm-2" type="search"
+												placeholder="상품명" aria-label="Search">
+											<button class="btn btn-outline-success my-2 my-sm-0"
+												type="submit">검색</button>
+										</form>
+									</ul>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</nav>
+
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="row justify-content-center productDiv">
+				<div class="col-4 mb-3" th:each="item, stat: ${list}">
+					<div class="card prodDiv">
+						<input type="hidden" th:value="${item.pkProdSeq}">
+						<img style=" height: 15rem;" class="card-img-top" th:src="${item.prodImg}" alt="Card image cap">
+						<div class="card-body" style="text-align:center; height: 10rem;">
+							<h5 class="card-title" th:text="${item.prodName}"></h5>
+							<div class="row justify-content-center">
+								<span class="badge badge-success mr-2">탈모</span>
+								<span class="badge badge-success mr-2">건조</span>
+							</div>
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="yellow"
+								class="bi bi-star-fill m-1" viewBox="0 0 16 16">";
+								<path
+									d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+							</svg>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-12">
+				<nav aria-label="Page navigation example" style="padding: 50px;">
+					<ul class="pagination justify-content-center">
+						<li class="page-item previous th-disabled"
+							th:classappend="${paging.prev == false} ? 'disabled'">
+							<a th:href="@{/chart.com(page=${paging.startPage - 1})}" tabindex="0"
+								class="page-link">Previous</a>
+						</li>
+						<div th:each="pNo: ${#numbers.sequence(paging.startPage, paging.endPage)}">
+							<li class="page-item" th:classappend="${paging.cri.page == pNo} ? 'active'">
+								<a th:href="@{/chart.com(page=${pNo})}" tabindex="0" aria-controls="dataTable"
+									class="page-link" th:text="${pNo}"></a>
+							</li>
+						</div>
+						<li class="page-item next th-disabled" th:classappend="${paging.next == false} ? 'disabled'">
+							<a th:href="@{/chart.com(page=${paging.endPage + 1})}" tabindex="0"
+								aria-controls="dataTable" class="page-link">Next</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+
+	</div>
+
+
+	<script>
+		$(document).ready(function () {
+
+
+			//$.ajax({
+			//	type: "POST",
+			//	url: "/productList",
+			//	async: false,
+			//	//data: {id: id},
+			//	success: function (data) {
+			//		var str = "";
+			//		console.log(data)
+			//			
+			//		
+			//		for (let i = 0; i < data.length; i++) {
+			//			str += "<div class=\"col-3\">";
+			//			str += 	"<div class=\"card\">";
+			//			str += 		"<img class=\"card-img-top\" src=\'"+data[i].prodImg+"\' alt=\"Card image cap\">";
+			//			str += 			"<div class=\"card-body\" style=\"text-align:center\">";
+			//			str += 				'<h5 class=\"card-title mb-5\">'+data[i].prodName+'</h5>';
+			//			str += 				"<div class=\"row justify-content-center\">";
+			//			str += 					"<span class=\"badge badge-success m-1 mb-5\">탈모</span>";
+			//			str += 					"<span class=\"badge badge-success m-1 mb-5\">건조</span>";
+			//			str += 				"</div>";
+			//			str += 				"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"yellow\" class=\"bi bi-star-fill m-1\" viewBox=\"0 0 16 16\">";
+			//			str += 					"<path d=\"M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z\" />";
+			//			str += 				"</svg>";
+			//			str += 			"</div>";
+			//			str +=	"</div>";
+			//			str += "</div>";
+			//		}
+			//        
+			//		$(".productDiv").append(str);
+			//	}
+			//});
+
+			var PRODUCT_ARRAY = [];
+			var CHART_ARRAY = [];
+			CHART_ARRAY = [3, 1, 3, 1, 0, 2];
+			$(".prodDiv").click(function () {
+				var $this = $(this);
+				var value = $this.find('input').val();
+				if ($this.hasClass('selectDiv')) {
+					$this.removeClass('selectDiv');
+					PRODUCT_ARRAY.splice(PRODUCT_ARRAY.indexOf(value), 1);
+				} else {
+					$this.addClass('selectDiv');
+					PRODUCT_ARRAY.push(value);
+				}
+				console.log(PRODUCT_ARRAY)
+			});
+			
+			
+			$("#uploadBtn").click(function () {
+			$.ajax({
+				type: "POST",
+				url: "/productList",
+				async: false,
+				//data: {id: id},
+				success: function (data) {
+					var str = "";
+					console.log(data)
+						
+					
+					for (let i = 0; i < data.length; i++) {
+						str += "<div class=\"col-3\">";
+						str += 	"<div class=\"card\">";
+						str += 		"<img class=\"card-img-top\" src=\'"+data[i].prodImg+"\' alt=\"Card image cap\">";
+						str += 			"<div class=\"card-body\" style=\"text-align:center\">";
+						str += 				'<h5 class=\"card-title mb-5\">'+data[i].prodName+'</h5>';
+						str += 				"<div class=\"row justify-content-center\">";
+						str += 					"<span class=\"badge badge-success m-1 mb-5\">탈모</span>";
+						str += 					"<span class=\"badge badge-success m-1 mb-5\">건조</span>";
+						str += 				"</div>";
+						str += 				"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"yellow\" class=\"bi bi-star-fill m-1\" viewBox=\"0 0 16 16\">";
+						str += 					"<path d=\"M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z\" />";
+						str += 				"</svg>";
+						str += 			"</div>";
+						str +=	"</div>";
+						str += "</div>";
+					}
+			        
+					$(".productDiv").append(str);
+				}
+			});
+				
+			});
+			
+			var marksCanvas = document.getElementById("marksChart");
+
+
+			var marksData = {
+				labels: ["지성", "비듬", "탈모", "건성", "홍반", "농포"],
+				datasets: [{
+					label: "두피상태",
+					backgroundColor: 'rgba(54, 162, 235, 0.2)',
+					borderColor: 'rgb(54, 162, 235)',
+					pointBackgroundColor: 'rgb(54, 162, 235)',
+					pointBorderColor: '#fff',
+					pointHoverBackgroundColor: '#fff',
+					pointHoverBorderColor: 'rgb(54, 162, 235)',
+					data: CHART_ARRAY
+				}]
+			};
+
+			var chartOptions = {
+				responsive: false,
+				scale: {
+					gridLines: {
+						color: "black",
+						lineWidth: 3
+					},
+					angleLines: {
+						display: false
+					},
+					ticks: {
+						beginAtZero: true,
+						min: 0,
+						max: 5,
+						stepSize: 1
+					},
+					pointLabels: {
+						fontSize: 18,
+						fontColor: "blue"
+					}
+				},
+				legend: {
+					position: 'center'
+				}
+			};
+
+			var radarChart = new Chart(marksCanvas, {
+				type: 'radar',
+				data: marksData,
+				options: chartOptions
+			});
+			
+			
+			
+			
+		});
+
+
+	</script>
+</th:block>
+
+</html>

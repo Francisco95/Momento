@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="project.momento.test.mapper.TestMapper">	<!-- xml파일을 사용할 mapper가 있는 경로 -->
+
+	<select id="checkLogin" parameterType="project.momento.login.dto.LoginDto" resultType="project.momento.login.dto.LoginDto">
+		<![CDATA[
+		SELECT
+		id AS id,
+		pwd AS pwd,
+		user_name AS username,
+		user_birthday AS userbirthday,
+		user_address AS useraddress,
+		user_addressmain AS useraddressmain
+		FROM user
+		WHERE id = #{id} AND pwd=#{[pwd}
+		]]>
+	</select>
+	<!-- UPDATE문 -->
+	
+	<!-- DELETE문 -->
+	
+</mapper>
