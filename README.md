@@ -36,6 +36,7 @@ VGG-16을 활용한 이미지 분석 기반 두피와 모발 집중 케어 서�
 - Python 3.8
 - Library : Pandas, Numpy, Pytorch, TenserFlow 등등
 - Model : VGG-16
+- Data : AI Hub
 
 ## 주요 기능 및 화면
 
