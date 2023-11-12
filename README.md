@@ -47,3 +47,73 @@ VGG-16을 활용한 이미지 분석 기반 두피와 모발 집중 케어 서�
 
 ![메인](https://github.com/Francisco95/Momento/assets/77893146/26910197-a043-47ad-8e7b-aa5a1280b681)
 </details>
+
+
+
+**로그인**
+
+- ID, Pwd 일치 확인
+- ID, Pwd 찾기
+- 로그인 세션 생성
+
+<details>
+<summary>더보기</summary>
+
+![로그인](https://github.com/Francisco95/Momento/assets/77893146/ea2bc38c-0510-4470-a7fb-f835cb0c9c4b)
+</details>
+
+
+
+**회원가입**
+
+- ID, Email 중복 체크
+
+<details>
+<summary>더보기</summary>
+  
+![회원가입](https://github.com/Francisco95/Momento/assets/77893146/a8e276d0-c206-4806-9bbb-526045590e21)
+</details>
+
+
+
+**두피검사**
+
+- 이미지 첨부
+- 이미지 가공 및 전처리
+- AI를 이용한 두피 분석
+
+<details>
+<summary>더보기</summary>
+
+![두피사진 업로드](https://github.com/Francisco95/Momento/assets/77893146/164e69f4-655d-443c-81fb-8a2c6068c875)
+</details>
+
+
+
+**두피검사결과**
+
+- 두피 검사 결과 레이더 차트로 출력
+- 크롤링을 이용한 결과에 따른 관련 상품 및 병원 추천
+- 상품 검색 기능
+
+<details>
+<summary>더보기</summary>
+  
+![두피 확인 결과](https://github.com/Francisco95/Momento/assets/77893146/78415239-5ae9-4509-9eb6-bc4747996ca3)
+
+![추천상품](https://github.com/Francisco95/Momento/assets/77893146/539aa8cc-7ca7-42ce-a599-50f9c44d66f2)
+</details>
+
+
+
+**마이페이지**
+
+- 날짜별 검사 결과 레이더차트로 출력
+- 특정 날짜 레이더차트 숨기기 및 보이게하기 기능
+- 내가 사용중인 상품 목록 출력
+
+<details>
+<summary>더보기</summary>
+  
+![마이페이지](https://github.com/Francisco95/Momento/assets/77893146/06b81a8e-fd7b-43a8-930b-3d11751e606a)
+</details>
